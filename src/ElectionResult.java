@@ -1,19 +1,21 @@
 public class ElectionResult {
-    private double demVotes,gopVotes, totalVotes, perDem, perGOP, perPoint;
-    private String diff, stateAbbr, countyName;
+    private double demVotes,gopVotes, totalVotes, perDem, perGOP, diff, perPoint;
+    private String stateAbbr, countyName;
     private int combinedFips;
 
-    public ElectionResult(double dem_Votes, double gop_Votes, double tot_Votes, double per_Dem, double per_GOP, String dif, double per_point, String state_Abbr, String county_Name, int combinedFips){
-        demVotes = dem_Votes;
-        gopVotes = gop_Votes;
-        totalVotes = tot_Votes;
-        perDem = per_Dem;
-        perGOP = per_GOP;
-        diff = dif;
-        perPoint = per_point;
-        stateAbbr = state_Abbr;
-        countyName = county_Name;
-        this.combinedFips = combinedFips;
+    public ElectionResult(String line){
+        String[] vals = line.split(", ");
+        //skipping first value
+        demVotes = Double.parseDouble(vals[1]);
+        gopVotes = Double.parseDouble(vals[2]);
+        totalVotes = Double.parseDouble(vals[3]);
+        perDem = Double.parseDouble(vals[4]);
+        perGOP = Double.parseDouble(vals[5]);
+        diff = Double.parseDouble(vals[6].substring(1, vals[6].length() - 1)); //removing the quotes
+        perPoint = Double.parseDouble(vals[7].substring(0, vals[7].length() - 1)) / 100; //changing into decimal
+        stateAbbr = vals[8];
+        countyName = vals[9];
+        combinedFips = Integer.parseInt(vals[10]);
     }
 
     public double getDemVotes() {
@@ -64,11 +66,11 @@ public class ElectionResult {
         this.perPoint = perPoint;
     }
 
-    public String getDiff() {
+    public double getDiff() {
         return diff;
     }
 
-    public void setDiff(String diff) {
+    public void setDiff(double diff) {
         this.diff = diff;
     }
 
@@ -94,5 +96,10 @@ public class ElectionResult {
 
     public void setCombinedFips(int combinedFips) {
         this.combinedFips = combinedFips;
+    }
+
+    public String toString() {
+        return demVotes + ", " + gopVotes + ", " + totalVotes + ", " + perDem + ", " + perGOP + ", "
+                + diff + ", " + perPoint + ", " + stateAbbr + ", " + countyName + ", " + combinedFips;
     }
 }

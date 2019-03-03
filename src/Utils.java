@@ -18,5 +18,15 @@ public class Utils {
 
         return output.toString();
     }
+
+    public static ArrayList<ElectionResult> parse2016ElectionResults(String data){
+        ArrayList<ElectionResult> results = new ArrayList<>();
+        String[] lines = data.split("\n");
+
+        for(int i = 1; i < lines.length; i++){
+            String[] infoPerLines = lines[i].split(", ");
+
+        }
+    }
 }
 
