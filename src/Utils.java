@@ -21,12 +21,15 @@ public class Utils {
 
     public static ArrayList<ElectionResult> parse2016ElectionResults(String data){
         ArrayList<ElectionResult> results = new ArrayList<>();
+        if (data.indexOf(",") == 0) {
+            data = data.substring(data.indexOf("\n") + 1); //removing the first line
+        }
         String[] lines = data.split("\n");
 
-        for(int i = 1; i < lines.length; i++){
-            String[] infoPerLines = lines[i].split(", ");
-
+        for(String line: lines){
+            results.add(new ElectionResult(line));
         }
+        return results;
     }
 }
 
