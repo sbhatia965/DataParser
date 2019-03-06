@@ -1,21 +1,44 @@
+import java.util.*;
+
 public class ElectionResult {
     private double demVotes,gopVotes, totalVotes, perDem, perGOP, diff, perPoint;
     private String stateAbbr, countyName;
     private int combinedFips;
 
     public ElectionResult(String line){
-        String[] vals = line.split(", ");
+        String[] initial = line.split(", ");
+        ArrayList<String> vals = removeExtraPunctuation(initial);
         //skipping first value
-        demVotes = Double.parseDouble(vals[1]);
-        gopVotes = Double.parseDouble(vals[2]);
-        totalVotes = Double.parseDouble(vals[3]);
-        perDem = Double.parseDouble(vals[4]);
-        perGOP = Double.parseDouble(vals[5]);
-        diff = Double.parseDouble(vals[6].substring(1, vals[6].length() - 1)); //removing the quotes
-        perPoint = Double.parseDouble(vals[7].substring(0, vals[7].length() - 1)) / 100; //changing into decimal
-        stateAbbr = vals[8];
-        countyName = vals[9];
-        combinedFips = Integer.parseInt(vals[10]);
+        demVotes = Double.parseDouble(vals.get(1));
+        gopVotes = Double.parseDouble(vals.get(2));
+        totalVotes = Double.parseDouble(vals.get(3));
+        perDem = Double.parseDouble(vals.get(4));
+        perGOP = Double.parseDouble(vals.get(5));
+        diff = Double.parseDouble(vals.get(6));
+        perPoint = Double.parseDouble(vals.get(7)) / 100; //changing into decimal
+        stateAbbr = vals.get(8);
+        countyName = vals.get(9);
+        combinedFips = Integer.parseInt(vals.get(10));
+    }
+
+    private ArrayList<String> removeExtraPunctuation(String[] initial) {
+        ArrayList<String> output = new ArrayList<>();
+        for(String value:initial){
+            if(value.contains(",")) value = value.replace(",", "");
+            if(value.contains("\"")) value = value.replace("\"", "");
+            if(value.contains("%")) value = value.replace("%", "");
+            //other punctuation for generalization
+            if(value.contains("!")) value = value.replace("!", "");
+            if(value.contains("#")) value = value.replace("#", "");
+            if(value.contains("^")) value = value.replace("^", "");
+            if(value.contains("$")) value = value.replace("$", "");
+            if(value.contains("*")) value = value.replace("*", "");
+
+            value = value.trim();
+
+            output.add(value);
+        }
+        return output;
     }
 
     public double getDemVotes() {
