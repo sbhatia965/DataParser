@@ -1,14 +1,14 @@
 public class County {
     private String name;
     private int fips;
-    private Election2016 election2016;
+    private Election2016 vote2016;
     private Education2016 education2016;
     private Employment2016 employ2016;
 
     public County(String name, int fips) {
         this.name = name;
         this.fips = fips;
-        election2016 = new Election2016(-1, -1, -1);
+        vote2016 = new Election2016(-1, -1, -1);
         education2016 = new Education2016(-1, -1, -1, -1);
         employ2016 = new Employment2016(-1, -1, -1, -1);
     }
@@ -31,11 +31,11 @@ public class County {
     }
 
     public Election2016 getVote2016() {
-        return election2016;
+        return vote2016;
     }
 
-    public void setElection2016(Election2016 elec2016) {
-        this.election2016 = elec2016;
+    public void setVote2016(Election2016 elec2016) {
+        this.vote2016 = elec2016;
     }
 
     public Education2016 getEducation2016() {
@@ -55,6 +55,6 @@ public class County {
     }
 
     public String toString(){
-        return fips + "," + name + "," + election2016.toString() + "," + education2016.toString() + "," + employ2016.toString();
+        return fips + "," + name + "," + vote2016.toString() + "," + education2016.toString() + "," + employ2016.toString();
     }
 }
