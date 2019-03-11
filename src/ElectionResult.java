@@ -7,7 +7,7 @@ public class ElectionResult {
 
     public ElectionResult(String line){
         String[] initial = line.split(", ");
-        ArrayList<String> vals = removeExtraPunctuation(initial);
+        //ArrayList<String> vals = removeExtraPunctuation(initial);
         //skipping first value
         demVotes = Double.parseDouble(vals.get(1));
         gopVotes = Double.parseDouble(vals.get(2));
@@ -21,24 +21,13 @@ public class ElectionResult {
         combinedFips = Integer.parseInt(vals.get(10));
     }
 
-    private ArrayList<String> removeExtraPunctuation(String[] initial) {
-        ArrayList<String> output = new ArrayList<>();
-        for(String value:initial){
-            if(value.contains(",")) value = value.replace(",", "");
-            if(value.contains("\"")) value = value.replace("\"", "");
-            if(value.contains("%")) value = value.replace("%", "");
-            //other punctuation for generalization
-            if(value.contains("!")) value = value.replace("!", "");
-            if(value.contains("#")) value = value.replace("#", "");
-            if(value.contains("^")) value = value.replace("^", "");
-            if(value.contains("$")) value = value.replace("$", "");
-            if(value.contains("*")) value = value.replace("*", "");
-
-            value = value.trim();
-
-            output.add(value);
+    private String[] formatCorrectly(String singleLine) {
+        int indexOfComma = singleLine.indexOf("\"");
+        if (indexOfComma != -1) {
+            int nextIndex = singleLine.indexOf("\"", indexOfComma + 1);
+            singleLine = singleLine.substring(0, singleLine.indexOf("\"")) + singleLine.substring(indexOfComma, nextIndex).replace(",", "") + singleLine.substring(nextIndex);
         }
-        return output;
+        return singleLine.replace("\"", "").split(",");
     }
 
     public double getDemVotes() {
@@ -122,7 +111,6 @@ public class ElectionResult {
     }
 
     public String toString() {
-        return demVotes + ", " + gopVotes + ", " + totalVotes + ", " + perDem + ", " + perGOP + ", "
-                + diff + ", " + perPoint + ", " + stateAbbr + ", " + countyName + ", " + combinedFips;
+        return demVotes + ", " + gopVotes + ", " + totalVotes + ", " + perDem + ", " + perGOP + ", " + diff + ", " + perPoint + ", " + stateAbbr + ", " + countyName + ", " + combinedFips;
     }
 }
