@@ -6,19 +6,18 @@ public class ElectionResult {
     private int combinedFips;
 
     public ElectionResult(String line){
-        String[] initial = line.split(", ");
-        //ArrayList<String> vals = removeExtraPunctuation(initial);
+        String[] individualVals = formatCorrectly(line);
         //skipping first value
-        demVotes = Double.parseDouble(vals.get(1));
-        gopVotes = Double.parseDouble(vals.get(2));
-        totalVotes = Double.parseDouble(vals.get(3));
-        perDem = Double.parseDouble(vals.get(4));
-        perGOP = Double.parseDouble(vals.get(5));
-        diff = Double.parseDouble(vals.get(6));
-        perPoint = Double.parseDouble(vals.get(7)) / 100; //changing into decimal
-        stateAbbr = vals.get(8);
-        countyName = vals.get(9);
-        combinedFips = Integer.parseInt(vals.get(10));
+        demVotes = Double.parseDouble(individualVals[1]);
+        gopVotes = Double.parseDouble(individualVals[2]);
+        totalVotes = Double.parseDouble(individualVals[3]);
+        perDem = Double.parseDouble(individualVals[4]);
+        perGOP = Double.parseDouble(individualVals[5]);
+        diff = Double.parseDouble(individualVals[6]);
+        perPoint = Double.parseDouble(individualVals[7].substring(0, individualVals[7].length() - 1)) / 100; //changing into decimal
+        stateAbbr = individualVals[8];
+        countyName = individualVals[9];
+        combinedFips = Integer.parseInt(individualVals[10]);
     }
 
     private String[] formatCorrectly(String singleLine) {
@@ -27,7 +26,7 @@ public class ElectionResult {
             int nextIndex = singleLine.indexOf("\"", indexOfComma + 1);
             singleLine = singleLine.substring(0, singleLine.indexOf("\"")) + singleLine.substring(indexOfComma, nextIndex).replace(",", "") + singleLine.substring(nextIndex);
         }
-        return singleLine.replace("\"", "").split(",");
+        return singleLine.replace("\"", "").trim().split(",");
     }
 
     public double getDemVotes() {
